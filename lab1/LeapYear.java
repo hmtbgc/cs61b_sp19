@@ -3,9 +3,22 @@
  */
 public class LeapYear {
 
+    /**
+     * checkLeapYear
+     * @param year
+     * @return is or not LeapYear
+     */
+
+    private static boolean isLeapYear(int year) {
+        if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) 
+            return true;
+        return false; 
+    }
+
     /** Calls isLeapYear to print correct statement.
      *  @param  year to be analyzed
      */
+
     private static void checkLeapYear(int year) {
         if (isLeapYear(year)) {
             System.out.printf("%d is a leap year.\n", year);
