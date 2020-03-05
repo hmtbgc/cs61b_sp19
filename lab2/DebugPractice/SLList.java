@@ -8,7 +8,9 @@ public class SLList{
     }
 
     public void addFirst(int value) {
-        sentinel = new IntNode(value, sentinel);
+        IntNode input = new IntNode(value, null);
+        input.next = sentinel.next;
+        sentinel.next = input;
         size += 1;
 
     }
@@ -25,6 +27,52 @@ public class SLList{
         p.next = new IntNode(value, null);
         size += 1;
     }
+
+    public void insert(int item, int position) {
+        if (position == 0) {
+            addFirst(item);
+        }
+        else if (position > size - 1) {
+            addLast(item);
+        } else {
+            IntNode p = sentinel;
+            int i = 0;
+            while (i < position) {
+                p = p.next;
+                i += 1;
+            }
+            IntNode input = new IntNode(item, null);
+            input.next = p.next;
+            p.next = input;
+        }
+        size += 1;
+    }
+
+    public void reverse() {
+        IntNode p = sentinel.next.next;
+        sentinel.next.next = null;
+        while (p != null) {
+            IntNode temp = p.next;
+            p.next = sentinel.next;
+            sentinel.next = p;
+            p = temp;
+        }
+    }
+
+    private IntNode recurisive(IntNode p){
+        if (p.next == null || p == null) {
+            return p;
+        }
+        IntNode temp = p.next;
+        IntNode reversed = recurisive(p.next);
+        temp.next = p;
+        p.next = null;
+        return reversed;
+    }
+    public void reverseRecurisive() {
+        sentinel.next = recurisive(sentinel.next);
+    }
+
 
     public int iterativeSize() {
         IntNode p = sentinel.next;
@@ -52,7 +100,7 @@ public class SLList{
     }
 
     public static void print_list(SLList L){
-        IntNode p = L.sentinel;
+        IntNode p = L.sentinel.next;
         while (p != null) {
             System.out.print(p.value+" ");
             p = p.next;
@@ -64,11 +112,21 @@ public class SLList{
     public static void main(String[] args) {
         SLList p = new SLList();
         p.addFirst(20);
-        p.addLast(30);
-        p.addFirst(40);
-        p.addLast(70);
+//        p.addLast(30);
+//        p.addFirst(40);
+//        p.addLast(70);
         print_list(p);
         System.out.println(p.size());
         System.out.println(p.cacheSize());
+        p.insert(50, 1);
+        print_list(p);
+//        p.insert(60, 0);
+//        p.insert(80, 100);
+        p.insert(35, 4);
+//        print_list(p);
+        p.reverse();
+        print_list(p);
+        p.reverseRecurisive();
+        print_list(p);
     }
 }
