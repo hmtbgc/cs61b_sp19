@@ -9,6 +9,9 @@ import java.awt.Color;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
+import java.util.Random;
+
+import static huglife.HugLifeUtils.*;
 
 /**
  * An implementation of a motile pacifist photosynthesizer.
@@ -57,7 +60,9 @@ public class Plip extends Creature {
      * that you get this exactly correct.
      */
     public Color color() {
-        g = 63;
+        g = (int) (96 * energy + 63);
+        r = 99;
+        b = 76;
         return color(r, g, b);
     }
 
@@ -74,7 +79,8 @@ public class Plip extends Creature {
      * private static final variable. This is not required for this lab.
      */
     public void move() {
-        // TODO
+        energy -= 0.15;
+        energy = Math.max(energy, 0.0);
     }
 
 
@@ -82,7 +88,9 @@ public class Plip extends Creature {
      * Plips gain 0.2 energy when staying due to photosynthesis.
      */
     public void stay() {
-        // TODO
+        energy += 0.2;
+        energy = Math.min(energy, 2.0);
+
     }
 
     /**
@@ -91,7 +99,10 @@ public class Plip extends Creature {
      * Plip.
      */
     public Plip replicate() {
-        return this;
+        energy = energy * 0.5;
+        double babyEnergy = energy * 0.5;
+        return new Plip(babyEnergy);
+
     }
 
     /**
@@ -111,18 +122,43 @@ public class Plip extends Creature {
         // Rule 1
         Deque<Direction> emptyNeighbors = new ArrayDeque<>();
         boolean anyClorus = false;
-        // TODO
-        // (Google: Enhanced for-loop over keys of NEIGHBORS?)
-        // for () {...}
+        for (Map.Entry<Direction, Occupant> entry : neighbors.entrySet()) {
+            Direction dire = entry.getKey();
+            Occupant occu = entry.getValue();
+            if (occu.name().equals("empty")) {
+                emptyNeighbors.add(dire);
+            }
+        }
 
-        if (false) { // FIXME
-            // TODO
+        if (emptyNeighbors.isEmpty()) {
+            return new Action(Action.ActionType.STAY);
         }
 
         // Rule 2
         // HINT: randomEntry(emptyNeighbors)
+        if (energy >= 1.0) {
+            Direction dire = randomEntry(emptyNeighbors);
+            return new Action(Action.ActionType.REPLICATE, dire);
+        }
 
         // Rule 3
+
+        for (Map.Entry<Direction, Occupant> entry : neighbors.entrySet()) {
+            if (entry.getValue().name().equals("clorus")) {
+                anyClorus = true;
+                break;
+            }
+        }
+
+        if (anyClorus) {
+            int seed = randomInt(1, 100);
+            if (seed > 50) {
+                return new Action(Action.ActionType.STAY);
+            } else {
+                Direction dire = randomEntry(emptyNeighbors);
+                return new Action(Action.ActionType.MOVE, dire);
+            }
+        }
 
         // Rule 4
         return new Action(Action.ActionType.STAY);

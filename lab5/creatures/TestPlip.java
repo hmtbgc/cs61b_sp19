@@ -1,6 +1,8 @@
 package creatures;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.nio.channels.Pipe;
 import java.util.HashMap;
 import java.awt.Color;
 import huglife.Direction;
@@ -32,10 +34,13 @@ public class TestPlip {
 
     @Test
     public void testReplicate() {
-        // TODO
+        Plip p = new Plip(2);
+        Plip baby = p.replicate();
+        assertNotEquals(p, baby);
+        assertTrue(Math.abs(p.energy() - 1.0) < 1e-5);
     }
 
-    //@Test
+    @Test
     public void testChoose() {
 
         // No empty adjacent spaces; stay.

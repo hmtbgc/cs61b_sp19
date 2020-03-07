@@ -39,7 +39,7 @@ public class Action {
 
     /**
      * Actions without absolute position should use UNDEFINED position.
-     */
+            */
     private static final int UNDEFINED = -126;
 
     /**
