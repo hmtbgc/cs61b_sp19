@@ -218,7 +218,7 @@ public class BSTMap<K extends Comparable, V> implements Map61B<K, V>  {
         b.put(3,8);
         b.printInOrder();
         Set<Integer> s = b.keySet();
-        for (int i : s){shi
+        for (int i : s){
             System.out.println(i);
         }
         for (int i : b) {
