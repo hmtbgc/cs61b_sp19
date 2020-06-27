@@ -38,7 +38,7 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
         this.keyset = new HashSet<>();
         this.hashTable = new ArrayList<>();
         for (int i = 0; i < numOfBucket; ++i) {
-            hashTable.add(new ArrayList<Node>());
+            hashTable.add(new ArrayList<>());
         }
         size = 0;
     }
