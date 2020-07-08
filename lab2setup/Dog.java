@@ -12,4 +12,8 @@ public class Dog {
         } 
         return "bark";
     }
+
+    public static void main() {
+        System.out.println("hello");
+    }
 }
